@@ -1,6 +1,6 @@
-package com.jwt.JWT_learning.config;
+package com.quiz.QUIZ_Share.config;
 
-import com.jwt.JWT_learning.repository.UserRepository;
+import com.quiz.QUIZ_Share.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

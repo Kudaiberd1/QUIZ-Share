@@ -1,4 +1,4 @@
-package com.jwt.JWT_learning.dto;
+package com.quiz.QUIZ_Share.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

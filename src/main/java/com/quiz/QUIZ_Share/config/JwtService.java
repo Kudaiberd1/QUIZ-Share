@@ -1,4 +1,4 @@
-package com.jwt.JWT_learning.config;
+package com.quiz.QUIZ_Share.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,1 +1,1 @@
-rootProject.name = "JWT_learning"
+rootProject.name = "QUIZ_Share"

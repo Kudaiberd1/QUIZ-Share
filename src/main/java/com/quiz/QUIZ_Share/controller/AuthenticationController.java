@@ -1,9 +1,9 @@
-package com.jwt.JWT_learning.controller;
+package com.quiz.QUIZ_Share.controller;
 
-import com.jwt.JWT_learning.dto.AuthenticationResponse;
-import com.jwt.JWT_learning.dto.LoginRequest;
-import com.jwt.JWT_learning.dto.RegisterRequest;
-import com.jwt.JWT_learning.service.AuthenticationService;
+import com.quiz.QUIZ_Share.dto.AuthenticationResponse;
+import com.quiz.QUIZ_Share.dto.LoginRequest;
+import com.quiz.QUIZ_Share.dto.RegisterRequest;
+import com.quiz.QUIZ_Share.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package com.jwt.JWT_learning.config;
+package com.quiz.QUIZ_Share.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

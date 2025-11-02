@@ -1,13 +1,13 @@
-package com.jwt.JWT_learning;
+package com.quiz.QUIZ_Share;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JwtLearningApplication {
+public class QuizShareApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(JwtLearningApplication.class, args);
+		SpringApplication.run(QuizShareApplication.class, args);
 	}
 
 }

@@ -1,12 +1,12 @@
-package com.jwt.JWT_learning.service;
+package com.quiz.QUIZ_Share.service;
 
-import com.jwt.JWT_learning.config.JwtService;
-import com.jwt.JWT_learning.dto.AuthenticationResponse;
-import com.jwt.JWT_learning.dto.LoginRequest;
-import com.jwt.JWT_learning.dto.RegisterRequest;
-import com.jwt.JWT_learning.entity.User;
-import com.jwt.JWT_learning.enums.Role;
-import com.jwt.JWT_learning.repository.UserRepository;
+import com.quiz.QUIZ_Share.config.JwtService;
+import com.quiz.QUIZ_Share.dto.AuthenticationResponse;
+import com.quiz.QUIZ_Share.dto.LoginRequest;
+import com.quiz.QUIZ_Share.dto.RegisterRequest;
+import com.quiz.QUIZ_Share.entity.User;
+import com.quiz.QUIZ_Share.enums.Role;
+import com.quiz.QUIZ_Share.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

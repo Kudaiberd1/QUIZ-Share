@@ -1,4 +1,4 @@
-package com.jwt.JWT_learning.controller;
+package com.quiz.QUIZ_Share.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.jwt.JWT_learning.config;
+package com.quiz.QUIZ_Share.config;
 
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.FilterChain;

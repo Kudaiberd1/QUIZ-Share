@@ -1,4 +1,4 @@
-package com.jwt.JWT_learning.enums;
+package com.quiz.QUIZ_Share.enums;
 
 public enum Role {
 

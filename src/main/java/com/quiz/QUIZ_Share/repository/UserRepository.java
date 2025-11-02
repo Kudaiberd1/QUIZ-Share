@@ -1,6 +1,6 @@
-package com.jwt.JWT_learning.repository;
+package com.quiz.QUIZ_Share.repository;
 
-import com.jwt.JWT_learning.entity.User;
+import com.quiz.QUIZ_Share.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
