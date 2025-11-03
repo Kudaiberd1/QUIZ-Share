@@ -1,14 +1,14 @@
 package com.quiz.QUIZ_Share.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.quiz.QUIZ_Share.enums.Answer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class Questions {
 
     @Id
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -37,7 +38,7 @@ public class Questions {
     @Enumerated(EnumType.STRING)
     private Answer answer;
 
-    @OneToOne(mappedBy = "question")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Quiz quiz;
-
 }

@@ -1,6 +1,6 @@
 package com.quiz.QUIZ_Share.config;
 
-import com.quiz.QUIZ_Share.repository.UserRepository;
+import com.quiz.QUIZ_Share.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

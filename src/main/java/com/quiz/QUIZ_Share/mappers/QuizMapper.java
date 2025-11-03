@@ -1,0 +1,18 @@
+package com.quiz.QUIZ_Share.mappers;
+
+import com.quiz.QUIZ_Share.dto.QuizResponse;
+import com.quiz.QUIZ_Share.entity.Quiz;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+
+@Mapper(
+    componentModel = "spring",
+    uses = QuestionMapper.class,
+    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+)
+public interface QuizMapper {
+
+    @Mapping(target = "userId", source = "user.id")
+    QuizResponse toDto(Quiz quiz);
+}

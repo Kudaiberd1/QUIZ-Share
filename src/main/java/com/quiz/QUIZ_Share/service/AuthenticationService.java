@@ -6,7 +6,7 @@ import com.quiz.QUIZ_Share.dto.LoginRequest;
 import com.quiz.QUIZ_Share.dto.RegisterRequest;
 import com.quiz.QUIZ_Share.entity.User;
 import com.quiz.QUIZ_Share.enums.Role;
-import com.quiz.QUIZ_Share.repository.UserRepository;
+import com.quiz.QUIZ_Share.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,7 +29,6 @@ public class AuthenticationService {
         var user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);

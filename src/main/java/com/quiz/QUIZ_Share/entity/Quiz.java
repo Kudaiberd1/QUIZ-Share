@@ -1,5 +1,8 @@
 package com.quiz.QUIZ_Share.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.quiz.QUIZ_Share.enums.Difficulty;
 import com.quiz.QUIZ_Share.enums.Privacy;
 import jakarta.persistence.*;
@@ -8,8 +11,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -37,11 +43,12 @@ public class Quiz {
     @Column(name = "privacy", nullable = false)
     private Privacy privacy;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "question_id", referencedColumnName = "id")
-    private Questions question;
+
+    @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Questions> questions;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 }

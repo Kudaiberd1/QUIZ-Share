@@ -1,4 +1,4 @@
-package com.quiz.QUIZ_Share.repository;
+package com.quiz.QUIZ_Share.repositories;
 
 import com.quiz.QUIZ_Share.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
