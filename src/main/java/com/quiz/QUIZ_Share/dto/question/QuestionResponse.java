@@ -1,4 +1,4 @@
-package com.quiz.QUIZ_Share.dto;
+package com.quiz.QUIZ_Share.dto.question;
 
 import com.quiz.QUIZ_Share.enums.Answer;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.quiz.QUIZ_Share.service;
 
-import com.quiz.QUIZ_Share.dto.QuestionRequest;
+import com.quiz.QUIZ_Share.dto.question.QuestionRequest;
 import com.quiz.QUIZ_Share.entity.Questions;
 import com.quiz.QUIZ_Share.entity.Quiz;
 import com.quiz.QUIZ_Share.repositories.QuestionRepository;
@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 

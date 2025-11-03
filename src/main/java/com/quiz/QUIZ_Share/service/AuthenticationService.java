@@ -1,11 +1,10 @@
 package com.quiz.QUIZ_Share.service;
 
 import com.quiz.QUIZ_Share.config.JwtService;
-import com.quiz.QUIZ_Share.dto.AuthenticationResponse;
-import com.quiz.QUIZ_Share.dto.LoginRequest;
-import com.quiz.QUIZ_Share.dto.RegisterRequest;
+import com.quiz.QUIZ_Share.dto.auth.AuthenticationResponse;
+import com.quiz.QUIZ_Share.dto.auth.LoginRequest;
+import com.quiz.QUIZ_Share.dto.auth.RegisterRequest;
 import com.quiz.QUIZ_Share.entity.User;
-import com.quiz.QUIZ_Share.enums.Role;
 import com.quiz.QUIZ_Share.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

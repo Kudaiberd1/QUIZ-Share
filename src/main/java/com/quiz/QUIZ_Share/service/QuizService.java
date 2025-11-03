@@ -1,22 +1,24 @@
 package com.quiz.QUIZ_Share.service;
 
-import com.quiz.QUIZ_Share.dto.QuizRequest;
-import com.quiz.QUIZ_Share.dto.QuizResponse;
+import com.quiz.QUIZ_Share.dto.question.QuestionRequest;
+import com.quiz.QUIZ_Share.dto.quiz.QuizCreateRequest;
+import com.quiz.QUIZ_Share.dto.quiz.QuizResponse;
+import com.quiz.QUIZ_Share.dto.quiz.QuizUpdateRequest;
 import com.quiz.QUIZ_Share.entity.Questions;
 import com.quiz.QUIZ_Share.entity.Quiz;
 import com.quiz.QUIZ_Share.entity.User;
 import com.quiz.QUIZ_Share.mappers.QuizMapper;
+import com.quiz.QUIZ_Share.repositories.QuestionRepository;
 import com.quiz.QUIZ_Share.repositories.QuizRepository;
 import com.quiz.QUIZ_Share.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +29,7 @@ public class QuizService {
     private final QuizMapper quizMapper;
     private final QuestionService questionService;
     private final UserRepository userRepository;
+    private final QuestionRepository questionRepository;
 
     public List<QuizResponse> getAll() {
         log.info("Get all quizzes");
@@ -45,27 +48,66 @@ public class QuizService {
     }
 
 
-    public QuizResponse createQuiz(@Valid QuizRequest quizRequest) {
-        log.info("Create quiz {}", quizRequest);
+    public QuizResponse createQuiz(@Valid QuizCreateRequest quizCreateRequest) {
+        log.info("Create quiz {}", quizCreateRequest);
 
-        User user = userRepository.findById(quizRequest.getAuthorId())
+        User user = userRepository.findById(quizCreateRequest.getAuthorId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
 
         Quiz quiz = new Quiz();
-        quiz.setTitle(quizRequest.getTitle());
-        quiz.setDescription(quizRequest.getDescription());
-        quiz.setSubject(quizRequest.getSubject());
-        quiz.setDifficulty(quizRequest.getDifficulty());
-        quiz.setPrivacy(quizRequest.getPrivacy());
+        quiz.setTitle(quizCreateRequest.getTitle());
+        quiz.setDescription(quizCreateRequest.getDescription());
+        quiz.setSubject(quizCreateRequest.getSubject());
+        quiz.setDifficulty(quizCreateRequest.getDifficulty());
+        quiz.setPrivacy(quizCreateRequest.getPrivacy());
         quiz.setUser(user);
 
         var savedQuiz = quizRepository.save(quiz);
 
-        var questions = questionService.buildQuestion(quiz, quizRequest.getQuestion());
+        var questions = questionService.buildQuestion(quiz, quizCreateRequest.getQuestion());
 
         savedQuiz.setQuestions(questions);
 
         return quizMapper.toDto(savedQuiz);
+    }
+
+    public QuizResponse updateQuiz(Long id, @Valid QuizUpdateRequest quizUpdateRequest) {
+        log.info("Update quiz {}", quizUpdateRequest);
+
+
+        Quiz quiz = quizRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Quiz not found"));
+
+        User user = userRepository.findById(quizUpdateRequest.getAuthorId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        quiz.setTitle(quizUpdateRequest.getTitle());
+        quiz.setDescription(quizUpdateRequest.getDescription());
+        quiz.setSubject(quizUpdateRequest.getSubject());
+        quiz.setDifficulty(quizUpdateRequest.getDifficulty());
+        quiz.setPrivacy(quizUpdateRequest.getPrivacy());
+        quiz.setUser(user);
+
+        List<Questions> updatedQuestions = new ArrayList<>();
+        for (Integer q : quizUpdateRequest.getQuestionIds()) {
+            Questions existingQuestion = questionRepository.findById(q)
+                    .orElseThrow(() -> new IllegalArgumentException("Question id not found"));
+            updatedQuestions.add(existingQuestion);
+        }
+        quiz.setQuestions(updatedQuestions);
+
+        if (quizUpdateRequest.getNewQuestion() != null) {
+            var newQuestions = questionService.buildQuestion(quiz, quizUpdateRequest.getNewQuestion());
+            quiz.getQuestions().addAll(newQuestions);
+        }
+
+        var savedQuiz = quizRepository.save(quiz);
+        return quizMapper.toDto(savedQuiz);
+    }
+
+    public void deleteQuiz(Long id) {
+        log.info("Delete quiz {}", id);
+        quizRepository.deleteById(id);
     }
 }

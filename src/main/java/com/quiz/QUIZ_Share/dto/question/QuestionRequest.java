@@ -1,9 +1,6 @@
-package com.quiz.QUIZ_Share.dto;
+package com.quiz.QUIZ_Share.dto.question;
 
 import com.quiz.QUIZ_Share.enums.Answer;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

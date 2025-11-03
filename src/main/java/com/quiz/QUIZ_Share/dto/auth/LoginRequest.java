@@ -1,4 +1,4 @@
-package com.quiz.QUIZ_Share.dto;
+package com.quiz.QUIZ_Share.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class LoginRequest {
 
-    private String firstName;
-    private String lastName;
     private String email;
     private String password;
 }

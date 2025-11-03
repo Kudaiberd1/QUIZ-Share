@@ -1,24 +1,21 @@
-package com.quiz.QUIZ_Share.dto;
+package com.quiz.QUIZ_Share.dto.quiz;
 
-import com.quiz.QUIZ_Share.entity.Questions;
-import com.quiz.QUIZ_Share.entity.User;
+import com.quiz.QUIZ_Share.dto.question.QuestionRequest;
 import com.quiz.QUIZ_Share.enums.Difficulty;
 import com.quiz.QUIZ_Share.enums.Privacy;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
 
-import java.util.List;
 import java.util.Set;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuizRequest {
+public class QuizCreateRequest {
 
     @NotNull
     private String title;

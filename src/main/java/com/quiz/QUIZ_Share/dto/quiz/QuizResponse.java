@@ -1,12 +1,9 @@
-package com.quiz.QUIZ_Share.dto;
+package com.quiz.QUIZ_Share.dto.quiz;
 
-import com.quiz.QUIZ_Share.entity.Questions;
-import com.quiz.QUIZ_Share.entity.User;
+import com.quiz.QUIZ_Share.dto.question.QuestionResponse;
 import com.quiz.QUIZ_Share.enums.Difficulty;
 import com.quiz.QUIZ_Share.enums.Privacy;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

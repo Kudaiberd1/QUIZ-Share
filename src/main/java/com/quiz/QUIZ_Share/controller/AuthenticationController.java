@@ -1,8 +1,8 @@
 package com.quiz.QUIZ_Share.controller;
 
-import com.quiz.QUIZ_Share.dto.AuthenticationResponse;
-import com.quiz.QUIZ_Share.dto.LoginRequest;
-import com.quiz.QUIZ_Share.dto.RegisterRequest;
+import com.quiz.QUIZ_Share.dto.auth.AuthenticationResponse;
+import com.quiz.QUIZ_Share.dto.auth.LoginRequest;
+import com.quiz.QUIZ_Share.dto.auth.RegisterRequest;
 import com.quiz.QUIZ_Share.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
