@@ -18,21 +18,19 @@ import java.util.Set;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final VariantService variantService;
 
     public List<Questions> buildQuestion(Quiz quiz, Set<QuestionRequest> questions){
-
+        //log.info("Building questions for quiz {}", quiz.toString());
         List<Questions> newQuestions = new ArrayList<>();
 
-        for(QuestionRequest qustion: questions){
+        for(QuestionRequest question: questions){
             Questions newQuestion = new Questions();
-            newQuestion.setQuestion(qustion.getQuestion());
-            newQuestion.setAnswer(qustion.getAnswer());
-            newQuestion.setOptionA(qustion.getOptionA());
-            newQuestion.setOptionB(qustion.getOptionB());
-            newQuestion.setOptionC(qustion.getOptionC());
-            newQuestion.setOptionD(qustion.getOptionD());
+            newQuestion.setQuestion(question.getQuestion());
+            newQuestion.setAnswer(question.getAnswer());
             newQuestion.setQuiz(quiz);
 
+            newQuestion.setVariants(variantService.createVariant(question.getVariants()));
             newQuestions.add(newQuestion);
         }
 

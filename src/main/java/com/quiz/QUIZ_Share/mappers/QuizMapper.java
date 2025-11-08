@@ -13,6 +13,5 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 )
 public interface QuizMapper {
 
-    @Mapping(target = "userId", source = "user.id")
     QuizResponse toDto(Quiz quiz);
 }

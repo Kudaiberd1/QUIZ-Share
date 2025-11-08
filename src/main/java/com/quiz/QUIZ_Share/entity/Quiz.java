@@ -6,10 +6,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.quiz.QUIZ_Share.enums.Difficulty;
 import com.quiz.QUIZ_Share.enums.Privacy;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -45,10 +43,10 @@ public class Quiz {
 
 
     @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
     @JsonIgnore
     private List<Questions> questions;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    private User user;
+    @Column(name = "UserId", nullable = false)
+    private Integer userId;
 }

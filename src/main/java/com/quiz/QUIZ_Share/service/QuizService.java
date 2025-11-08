@@ -1,17 +1,17 @@
 package com.quiz.QUIZ_Share.service;
 
-import com.quiz.QUIZ_Share.dto.question.QuestionRequest;
+import com.quiz.QUIZ_Share.dto.question.QuestionUpdateRequest;
 import com.quiz.QUIZ_Share.dto.quiz.QuizCreateRequest;
 import com.quiz.QUIZ_Share.dto.quiz.QuizResponse;
 import com.quiz.QUIZ_Share.dto.quiz.QuizUpdateRequest;
 import com.quiz.QUIZ_Share.entity.Questions;
 import com.quiz.QUIZ_Share.entity.Quiz;
 import com.quiz.QUIZ_Share.entity.User;
+import com.quiz.QUIZ_Share.entity.Variant;
 import com.quiz.QUIZ_Share.mappers.QuizMapper;
 import com.quiz.QUIZ_Share.repositories.QuestionRepository;
 import com.quiz.QUIZ_Share.repositories.QuizRepository;
 import com.quiz.QUIZ_Share.repositories.UserRepository;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +30,7 @@ public class QuizService {
     private final QuestionService questionService;
     private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
+    private final VariantService variantService;
 
     public List<QuizResponse> getAll() {
         log.info("Get all quizzes");
@@ -61,7 +62,7 @@ public class QuizService {
         quiz.setSubject(quizCreateRequest.getSubject());
         quiz.setDifficulty(quizCreateRequest.getDifficulty());
         quiz.setPrivacy(quizCreateRequest.getPrivacy());
-        quiz.setUser(user);
+        quiz.setUserId(user.getId());
 
         var savedQuiz = quizRepository.save(quiz);
 
@@ -87,15 +88,26 @@ public class QuizService {
         quiz.setSubject(quizUpdateRequest.getSubject());
         quiz.setDifficulty(quizUpdateRequest.getDifficulty());
         quiz.setPrivacy(quizUpdateRequest.getPrivacy());
-        quiz.setUser(user);
+        quiz.setUserId(user.getId());
 
         List<Questions> updatedQuestions = new ArrayList<>();
-        for (Integer q : quizUpdateRequest.getQuestionIds()) {
-            Questions existingQuestion = questionRepository.findById(q)
+        for (QuestionUpdateRequest q : quizUpdateRequest.getQuestions()) {
+            Questions existingQuestion = questionRepository.findById(q.getId())
                     .orElseThrow(() -> new IllegalArgumentException("Question id not found"));
+
+            List<Variant> allVariants = q.getVariants();
+            if(q.getNewVariants() != null && q.getNewVariants().size() > 0) {
+                var newVariants = variantService.createVariant(q.getNewVariants());
+                allVariants.addAll(newVariants);
+            }
+            log.info("allVariants {}", allVariants);
+            existingQuestion.setVariants(allVariants);
+            log.info("existingQuestion {}", existingQuestion);
             updatedQuestions.add(existingQuestion);
         }
         quiz.setQuestions(updatedQuestions);
+
+        log.info("Quiz updated {}", quizUpdateRequest);
 
         if (quizUpdateRequest.getNewQuestion() != null) {
             var newQuestions = questionService.buildQuestion(quiz, quizUpdateRequest.getNewQuestion());

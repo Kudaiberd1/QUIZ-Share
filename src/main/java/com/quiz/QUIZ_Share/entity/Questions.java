@@ -4,9 +4,13 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.quiz.QUIZ_Share.enums.Answer;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,23 +26,16 @@ public class Questions {
 
     private String question;
 
-    @Column(name = "optionA", nullable = false)
-    private String optionA;
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Variant> variants;
 
-    @Column(name = "optionB", nullable = false)
-    private String optionB;
-
-    @Column(name = "optionC", nullable = false)
-    private String optionC;
-
-    @Column(name = "optionD", nullable = false)
-    private String optionD;
-
+    @NotNull
     @Column(name = "answer", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Answer answer;
+    private String answer;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     @JsonIgnore
     private Quiz quiz;
 }

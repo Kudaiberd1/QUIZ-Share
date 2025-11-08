@@ -31,10 +31,6 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
-    @JsonManagedReference
-    private List<Quiz> quizzes = new ArrayList<>();
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,6 +1,8 @@
 package com.quiz.QUIZ_Share.dto.quiz;
 
 import com.quiz.QUIZ_Share.dto.question.QuestionRequest;
+import com.quiz.QUIZ_Share.dto.question.QuestionUpdateRequest;
+import com.quiz.QUIZ_Share.entity.Questions;
 import com.quiz.QUIZ_Share.enums.Difficulty;
 import com.quiz.QUIZ_Share.enums.Privacy;
 import lombok.AllArgsConstructor;
@@ -32,7 +34,7 @@ public class QuizUpdateRequest {
 
     private Set<QuestionRequest> newQuestion;
 
-    private Set<Integer> questionIds;
+    private Set<QuestionUpdateRequest> questions;
 
     @NotNull
     private Integer authorId;
