@@ -32,7 +32,7 @@ public class Questions {
 
     @NotNull
     @Column(name = "answer", nullable = false)
-    private String answer;
+    private List<String> answer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude

@@ -23,5 +23,5 @@ public class QuestionUpdateRequest {
 
     private List<VariantRequest> newVariants;
 
-    private String answer;
+    private List<String> answer;
 }

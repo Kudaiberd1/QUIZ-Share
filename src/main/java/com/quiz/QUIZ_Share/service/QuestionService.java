@@ -1,8 +1,10 @@
 package com.quiz.QUIZ_Share.service;
 
 import com.quiz.QUIZ_Share.dto.question.QuestionRequest;
+import com.quiz.QUIZ_Share.dto.question.QuestionUpdateRequest;
 import com.quiz.QUIZ_Share.entity.Questions;
 import com.quiz.QUIZ_Share.entity.Quiz;
+import com.quiz.QUIZ_Share.entity.Variant;
 import com.quiz.QUIZ_Share.repositories.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,5 +37,19 @@ public class QuestionService {
         }
 
         return questionRepository.saveAll(newQuestions);
+    }
+
+    public Questions updateQuestion(QuestionUpdateRequest questionRequest){
+        Questions existingQuestion = questionRepository.findById(questionRequest.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Question id not found"));
+        List<Variant> allVariants = questionRequest.getVariants();
+        if(questionRequest.getNewVariants() != null && questionRequest.getNewVariants().size() > 0) {
+            var newVariants = variantService.createVariant(questionRequest.getNewVariants());
+            allVariants.addAll(newVariants);
+        }
+        existingQuestion.setVariants(allVariants);
+        existingQuestion.setAnswer(questionRequest.getAnswer());
+
+        return existingQuestion;
     }
 }

@@ -92,18 +92,7 @@ public class QuizService {
 
         List<Questions> updatedQuestions = new ArrayList<>();
         for (QuestionUpdateRequest q : quizUpdateRequest.getQuestions()) {
-            Questions existingQuestion = questionRepository.findById(q.getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Question id not found"));
-
-            List<Variant> allVariants = q.getVariants();
-            if(q.getNewVariants() != null && q.getNewVariants().size() > 0) {
-                var newVariants = variantService.createVariant(q.getNewVariants());
-                allVariants.addAll(newVariants);
-            }
-            log.info("allVariants {}", allVariants);
-            existingQuestion.setVariants(allVariants);
-            log.info("existingQuestion {}", existingQuestion);
-            updatedQuestions.add(existingQuestion);
+            updatedQuestions.add(questionService.updateQuestion(q));
         }
         quiz.setQuestions(updatedQuestions);
 
