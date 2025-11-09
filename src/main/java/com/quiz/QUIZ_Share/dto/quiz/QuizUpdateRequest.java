@@ -19,24 +19,21 @@ import java.util.Set;
 @NoArgsConstructor
 public class QuizUpdateRequest {
 
-    @NotNull
     private String title;
 
-    @NotNull
     private Difficulty difficulty;
 
-    @NotNull
     private String subject;
     private String description;
 
-    @NotNull
     private Privacy privacy;
+
+    private Integer rate;
 
     private Set<QuestionRequest> newQuestion;
 
     private Set<QuestionUpdateRequest> questions;
 
-    @NotNull
     private Integer authorId;
 
 }

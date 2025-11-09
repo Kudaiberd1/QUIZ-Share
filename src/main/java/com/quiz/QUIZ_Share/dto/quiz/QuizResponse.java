@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -22,4 +23,5 @@ public class QuizResponse {
     private Privacy privacy;
     private Set<QuestionResponse> questions;
     private Integer userId;
+    private List<Integer> rate;
 }

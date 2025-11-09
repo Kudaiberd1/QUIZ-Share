@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +42,8 @@ public class Quiz {
     @Column(name = "privacy", nullable = false)
     private Privacy privacy;
 
+    @Column(name = "rate")
+    private List<Integer> rate =  new  ArrayList<>(List.of(0,0,0,0,0));
 
     @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude

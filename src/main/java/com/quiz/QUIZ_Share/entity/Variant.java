@@ -2,9 +2,7 @@ package com.quiz.QUIZ_Share.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +18,8 @@ public class Variant {
     private String option;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @ToString.Exclude
     @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private Questions question;
 }

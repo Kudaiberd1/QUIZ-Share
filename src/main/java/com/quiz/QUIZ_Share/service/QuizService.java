@@ -7,7 +7,6 @@ import com.quiz.QUIZ_Share.dto.quiz.QuizUpdateRequest;
 import com.quiz.QUIZ_Share.entity.Questions;
 import com.quiz.QUIZ_Share.entity.Quiz;
 import com.quiz.QUIZ_Share.entity.User;
-import com.quiz.QUIZ_Share.entity.Variant;
 import com.quiz.QUIZ_Share.mappers.QuizMapper;
 import com.quiz.QUIZ_Share.repositories.QuestionRepository;
 import com.quiz.QUIZ_Share.repositories.QuizRepository;
@@ -35,9 +34,10 @@ public class QuizService {
     public List<QuizResponse> getAll() {
         log.info("Get all quizzes");
 
-        List<Quiz> quizzes = quizRepository.findAllWithQuestions();
+        List<Quiz> quizzes = quizRepository.findAll();
+
         for (Quiz q : quizzes) {
-            log.info("Quiz {} has {} questions", q.getTitle(), q.getQuestions().size());
+            log.info("Quiz {} has {} questions", q.getTitle(), q.getQuestions());
         }
         return quizzes.stream().map(quizMapper::toDto).toList();
     }
@@ -83,18 +83,28 @@ public class QuizService {
         User user = userRepository.findById(quizUpdateRequest.getAuthorId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        quiz.setTitle(quizUpdateRequest.getTitle());
-        quiz.setDescription(quizUpdateRequest.getDescription());
-        quiz.setSubject(quizUpdateRequest.getSubject());
-        quiz.setDifficulty(quizUpdateRequest.getDifficulty());
-        quiz.setPrivacy(quizUpdateRequest.getPrivacy());
-        quiz.setUserId(user.getId());
 
-        List<Questions> updatedQuestions = new ArrayList<>();
-        for (QuestionUpdateRequest q : quizUpdateRequest.getQuestions()) {
-            updatedQuestions.add(questionService.updateQuestion(q));
+        if(quizUpdateRequest.getTitle() != null) quiz.setTitle(quizUpdateRequest.getTitle());
+        if(quizUpdateRequest.getDescription() != null) quiz.setDescription(quizUpdateRequest.getDescription());
+        if(quizUpdateRequest.getSubject() != null) quiz.setSubject(quizUpdateRequest.getSubject());
+        if(quizUpdateRequest.getPrivacy() != null) quiz.setPrivacy(quizUpdateRequest.getPrivacy());
+        if(quizUpdateRequest.getDifficulty() != null) quiz.setDifficulty(quizUpdateRequest.getDifficulty());
+        if(quizUpdateRequest.getAuthorId() != null) quiz.setUserId(user.getId());
+
+        if(quizUpdateRequest.getRate() != null){
+            List<Integer> rate = quiz.getRate();
+            rate.set(quizUpdateRequest.getRate()-1, rate.get(quizUpdateRequest.getRate()-1)+1);
+            quiz.setRate(rate);
         }
-        quiz.setQuestions(updatedQuestions);
+
+        if(quizUpdateRequest.getQuestions() != null) {
+            List<Questions> updatedQuestions = new ArrayList<>();
+            for (QuestionUpdateRequest q : quizUpdateRequest.getQuestions()) {
+                updatedQuestions.add(questionService.updateQuestion(q));
+            }
+            quiz.setQuestions(updatedQuestions);
+        }
+
 
         log.info("Quiz updated {}", quizUpdateRequest);
 

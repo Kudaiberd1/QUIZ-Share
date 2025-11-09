@@ -32,11 +32,14 @@ public class QuestionService {
             newQuestion.setAnswer(question.getAnswer());
             newQuestion.setQuiz(quiz);
 
-            newQuestion.setVariants(variantService.createVariant(question.getVariants()));
+            var savedQuestion = questionRepository.save(newQuestion);
+
+            newQuestion.setVariants(variantService.createVariant(question.getVariants(), savedQuestion));
+
             newQuestions.add(newQuestion);
         }
 
-        return questionRepository.saveAll(newQuestions);
+        return newQuestions;
     }
 
     public Questions updateQuestion(QuestionUpdateRequest questionRequest){
@@ -44,7 +47,7 @@ public class QuestionService {
                 .orElseThrow(() -> new IllegalArgumentException("Question id not found"));
         List<Variant> allVariants = questionRequest.getVariants();
         if(questionRequest.getNewVariants() != null && questionRequest.getNewVariants().size() > 0) {
-            var newVariants = variantService.createVariant(questionRequest.getNewVariants());
+            var newVariants = variantService.createVariant(questionRequest.getNewVariants(), existingQuestion);
             allVariants.addAll(newVariants);
         }
         existingQuestion.setVariants(allVariants);
