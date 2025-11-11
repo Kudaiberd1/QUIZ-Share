@@ -25,11 +25,20 @@ public class AuthenticationService {
 
 
     public AuthenticationResponse register(RegisterRequest request) {
+
         var user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .confirmPassword(request.getConfirmPassword())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .role(request.getRole())
                 .build();
-        userRepository.save(user);
+        if(user.getPassword().equals(user.getConfirmPassword())) {
+            userRepository.save(user);
+        }else{
+            throw new IllegalArgumentException("Passwords do not match");
+        }
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
