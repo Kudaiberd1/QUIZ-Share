@@ -9,8 +9,11 @@ import com.quiz.QUIZ_Share.mappers.UserMapper;
 import com.quiz.QUIZ_Share.repositories.UserRepository;
 import com.quiz.QUIZ_Share.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -22,10 +25,11 @@ public class AuthenticationController {
     private final UserMapper userMapper;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<?> register(
             @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity.ok(authenticationService.register(request));
+        authenticationService.register(request);
+        return ResponseEntity.ok(Map.of("message", "User registered successfully"));
     }
 
     @PostMapping("/login")

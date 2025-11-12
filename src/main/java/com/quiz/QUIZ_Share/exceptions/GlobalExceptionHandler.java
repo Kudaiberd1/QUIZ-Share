@@ -12,16 +12,29 @@ import java.util.Map;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    public static class PasswordDonTMatchException extends RuntimeException {
+        public PasswordDonTMatchException(String message) {
+            super(message);
+        }
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(Exception ex) {
         log.error("Error: ", ex);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of("error", ex.getMessage()));
+                .body(Map.of("message", ex.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> handleIllegalArgument(IllegalArgumentException ex) {
-        return ResponseEntity.badRequest().body(Map.of("error", ex.getMessage()));
+        return ResponseEntity.badRequest().body(Map.of("message", ex.getMessage()));
+    }
+
+    @ExceptionHandler(PasswordDonTMatchException.class)
+    public ResponseEntity<?> handleEmailExists(PasswordDonTMatchException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("message", e.getMessage()));
     }
 }
