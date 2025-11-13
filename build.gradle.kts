@@ -47,6 +47,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-configuration-processor")
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
+
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    implementation("org.springframework.security:spring-security-oauth2-authorization-server")
 }
 
 tasks.withType<Test> {
