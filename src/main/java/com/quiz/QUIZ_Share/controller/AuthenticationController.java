@@ -10,8 +10,10 @@ import com.quiz.QUIZ_Share.repositories.UserRepository;
 import com.quiz.QUIZ_Share.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -24,11 +26,12 @@ public class AuthenticationController {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    @PostMapping("/register")
+    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> register(
-            @RequestBody RegisterRequest request
+            @RequestPart("data") RegisterRequest request,
+            @RequestPart("file") MultipartFile file
     ) {
-        authenticationService.register(request);
+        authenticationService.register(request, file);
         return ResponseEntity.ok(Map.of("message", "User registered successfully"));
     }
 

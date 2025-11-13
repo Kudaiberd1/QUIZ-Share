@@ -13,6 +13,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +33,29 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request, MultipartFile file) {
+        String url;
+        //log.info(.toString());
+        if(file != null){
+            try {
+                String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+                log.info("url: {} file: {}", fileName, file);
+                Path uploadDir = Paths.get("uploads");
+                if (!Files.exists(uploadDir)) {
+                    Files.createDirectories(uploadDir);
+                }
+
+                Path path = uploadDir.resolve(fileName);
+                Files.write(path, file.getBytes());
+                url = "http://localhost:8080/uploads/" + fileName;
+                log.info("url: {} file: {}", url, file);
+
+            } catch (IOException e) {
+                throw new GlobalExceptionHandler.ImageUploadException("Failed to upload image");
+            }
+        }else{
+            url="";
+        }
 
         var user = User.builder()
                 .email(request.getEmail())
@@ -35,6 +63,7 @@ public class AuthenticationService {
                 .confirmPassword(passwordEncoder.encode(request.getPassword()))
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
+                .imageUrl(url)
                 .role(request.getRole())
                 .build();
 

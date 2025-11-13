@@ -18,6 +18,12 @@ public class GlobalExceptionHandler {
         }
     }
 
+    public static class ImageUploadException extends RuntimeException {
+        public ImageUploadException(String message) {
+            super(message);
+        }
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(Exception ex) {
         log.error("Error: ", ex);
@@ -37,4 +43,12 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(Map.of("message", e.getMessage()));
     }
+
+    @ExceptionHandler(ImageUploadException.class)
+    public ResponseEntity<?> handleImageUpload(ImageUploadException e) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("message", e.getMessage()));
+    }
+
 }

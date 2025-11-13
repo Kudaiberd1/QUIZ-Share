@@ -38,6 +38,9 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
 
+    @Column(nullable = true)
+    private String imageUrl;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

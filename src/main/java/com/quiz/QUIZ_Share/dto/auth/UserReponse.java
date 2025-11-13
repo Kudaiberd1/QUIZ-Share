@@ -15,6 +15,7 @@ public class UserReponse {
     private Integer id;
     private String firstName;
     private String lastName;
+    private String imageUrl;
     private String email;
     private Role role;
 }
