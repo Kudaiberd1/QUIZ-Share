@@ -65,6 +65,8 @@ public class QuizService {
         quiz.setDifficulty(quizCreateRequest.getDifficulty());
         quiz.setPrivacy(quizCreateRequest.getPrivacy());
         quiz.setUserId(user.getId());
+        quiz.setFirstName(user.getFirstName());
+        quiz.setLastName(user.getLastName());
 
         var savedQuiz = quizRepository.save(quiz);
 
@@ -91,7 +93,6 @@ public class QuizService {
         if(quizUpdateRequest.getSubject() != null) quiz.setSubject(quizUpdateRequest.getSubject());
         if(quizUpdateRequest.getPrivacy() != null) quiz.setPrivacy(quizUpdateRequest.getPrivacy());
         if(quizUpdateRequest.getDifficulty() != null) quiz.setDifficulty(quizUpdateRequest.getDifficulty());
-        if(quizUpdateRequest.getAuthorId() != null) quiz.setUserId(user.getId());
 
         if(quizUpdateRequest.getRate() != null){
             List<Integer> rate = quiz.getRate();
@@ -132,5 +133,10 @@ public class QuizService {
         };
         List<Quiz> filteredQuizzes = quizRepository.filterQuiz(title, subject, sort);
         return filteredQuizzes.stream().map(quizMapper::toDto).toList();
+    }
+
+    public List<String> getAllSubject() {
+        List<String> subjects = quizRepository.findAllSubject();
+        return subjects;
     }
 }

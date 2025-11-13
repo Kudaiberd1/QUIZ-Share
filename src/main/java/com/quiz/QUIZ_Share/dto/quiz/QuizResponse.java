@@ -23,5 +23,7 @@ public class QuizResponse {
     private Privacy privacy;
     private Set<QuestionResponse> questions;
     private Integer userId;
+    private String firstName;
+    private String lastName;
     private List<Integer> rate;
 }

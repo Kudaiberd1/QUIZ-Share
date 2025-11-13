@@ -14,6 +14,11 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
     List<Quiz> findAllByOrderByAddedTimeDesc();
 
     @Query("""
+        SELECT DISTINCT q.subject FROM Quiz q
+    """)
+    List<String> findAllSubject();
+
+    @Query("""
         SELECT q FROM Quiz q
         WHERE (:subject IS NULL OR q.subject = :subject)
           AND (:title IS NULL OR :title = '' OR UPPER(q.title) LIKE CONCAT(UPPER(:title), '%'))

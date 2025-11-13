@@ -65,4 +65,9 @@ public class QuizController {
         return ResponseEntity.ok(res);
     }
 
+    @GetMapping("/subjects")
+    public ResponseEntity<List<String>> getAllSubject(){
+        return ResponseEntity.ok(quizService.getAllSubject());
+    }
+
 }

@@ -50,6 +50,12 @@ public class Quiz {
     @Column(name = "UserId", nullable = false)
     private Integer userId;
 
+    @Column(name = "firstName")
+    private String firstName;
+
+    @Column(name = "lastName")
+    private String lastName;
+
     @Column(name = "addedTime")
     private Date addedTime;
 
