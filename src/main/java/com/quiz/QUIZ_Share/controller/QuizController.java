@@ -3,6 +3,7 @@ package com.quiz.QUIZ_Share.controller;
 import com.quiz.QUIZ_Share.dto.quiz.QuizCreateRequest;
 import com.quiz.QUIZ_Share.dto.quiz.QuizResponse;
 import com.quiz.QUIZ_Share.dto.quiz.QuizUpdateRequest;
+import com.quiz.QUIZ_Share.enums.Filter;
 import com.quiz.QUIZ_Share.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import jakarta.validation.Valid;
@@ -36,7 +37,6 @@ public class QuizController {
     public ResponseEntity<QuizResponse> createQuiz(
             @RequestBody @Valid QuizCreateRequest quizCreateRequest
     ){
-
         QuizResponse quizResponse = quizService.createQuiz(quizCreateRequest);
         return ResponseEntity.ok(quizResponse);
     }
@@ -53,6 +53,16 @@ public class QuizController {
     @DeleteMapping("/{id}")
     public void deleteQuiz(@PathVariable Long id){
         quizService.deleteQuiz(id);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<QuizResponse>> getAllQuizzesByFilter(
+            @RequestParam(required = false) String text,
+            @RequestParam(required = false) String subject,
+            @RequestParam(required = false) Filter filter
+            ){
+        var res = quizService.filterQuiz(text, subject, filter);
+        return ResponseEntity.ok(res);
     }
 
 }

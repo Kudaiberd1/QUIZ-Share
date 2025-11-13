@@ -9,10 +9,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -52,4 +49,12 @@ public class Quiz {
 
     @Column(name = "UserId", nullable = false)
     private Integer userId;
+
+    @Column(name = "addedTime")
+    private Date addedTime;
+
+    @PrePersist
+    protected void onCreate() {
+        this.addedTime = new Date();
+    }
 }

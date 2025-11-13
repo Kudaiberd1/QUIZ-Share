@@ -7,6 +7,7 @@ import com.quiz.QUIZ_Share.dto.quiz.QuizUpdateRequest;
 import com.quiz.QUIZ_Share.entity.Questions;
 import com.quiz.QUIZ_Share.entity.Quiz;
 import com.quiz.QUIZ_Share.entity.User;
+import com.quiz.QUIZ_Share.enums.Filter;
 import com.quiz.QUIZ_Share.mappers.QuizMapper;
 import com.quiz.QUIZ_Share.repositories.QuestionRepository;
 import com.quiz.QUIZ_Share.repositories.QuizRepository;
@@ -14,6 +15,7 @@ import com.quiz.QUIZ_Share.repositories.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,7 +36,7 @@ public class QuizService {
     public List<QuizResponse> getAll() {
         log.info("Get all quizzes");
 
-        List<Quiz> quizzes = quizRepository.findAll();
+        List<Quiz> quizzes = quizRepository.findAllByOrderByAddedTimeDesc();
 
         for (Quiz q : quizzes) {
             log.info("Quiz {} has {} questions", q.getTitle(), q.getQuestions());
@@ -120,5 +122,15 @@ public class QuizService {
     public void deleteQuiz(Long id) {
         log.info("Delete quiz {}", id);
         quizRepository.deleteById(id);
+    }
+
+    public List<QuizResponse> filterQuiz(String title, String subject, Filter filter) {
+         Sort sort = switch(filter) {
+            case LATEST -> Sort.by(Sort.Direction.DESC, "addedTime");
+            case OLD -> Sort.by(Sort.Direction.ASC, "addedTime");
+            case RATE -> Sort.by(Sort.Direction.DESC, "rate");
+        };
+        List<Quiz> filteredQuizzes = quizRepository.filterQuiz(title, subject, sort);
+        return filteredQuizzes.stream().map(quizMapper::toDto).toList();
     }
 }

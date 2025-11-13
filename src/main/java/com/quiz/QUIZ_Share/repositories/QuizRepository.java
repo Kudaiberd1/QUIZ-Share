@@ -1,16 +1,22 @@
 package com.quiz.QUIZ_Share.repositories;
 
 import com.quiz.QUIZ_Share.entity.Quiz;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
 
-    @Query("SELECT DISTINCT q FROM Quiz q " +
-            "LEFT JOIN FETCH q.questions " +
-            "LEFT JOIN FETCH q.userId")
-    List<Quiz> findAllWithQuestions();
+    List<Quiz> findAllByOrderByAddedTimeDesc();
+
+    @Query("""
+        SELECT q FROM Quiz q
+        WHERE (:subject IS NULL OR q.subject = :subject)
+          AND (:title IS NULL OR :title = '' OR UPPER(q.title) LIKE CONCAT(UPPER(:title), '%'))
+    """)
+    List<Quiz> filterQuiz(@Param("title") String title, @Param("subject") String subject, Sort sort);
 }
