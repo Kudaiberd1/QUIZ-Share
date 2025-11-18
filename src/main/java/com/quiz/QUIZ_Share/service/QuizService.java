@@ -8,6 +8,7 @@ import com.quiz.QUIZ_Share.entity.Questions;
 import com.quiz.QUIZ_Share.entity.Quiz;
 import com.quiz.QUIZ_Share.entity.User;
 import com.quiz.QUIZ_Share.enums.Filter;
+import com.quiz.QUIZ_Share.exceptions.GlobalExceptionHandler;
 import com.quiz.QUIZ_Share.mappers.QuizMapper;
 import com.quiz.QUIZ_Share.repositories.QuestionRepository;
 import com.quiz.QUIZ_Share.repositories.QuizRepository;
@@ -17,7 +18,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +57,7 @@ public class QuizService {
     }
 
 
-    public QuizResponse createQuiz(@Valid QuizCreateRequest quizCreateRequest) {
+    public QuizResponse createQuiz(@Valid QuizCreateRequest quizCreateRequest, MultipartFile file) {
         log.info("Create quiz {}", quizCreateRequest);
 
         User user = userRepository.findById(quizCreateRequest.getAuthorId())
@@ -67,6 +73,30 @@ public class QuizService {
         quiz.setUserId(user.getId());
         quiz.setFirstName(user.getFirstName());
         quiz.setLastName(user.getLastName());
+
+        String url;
+        if(file != null){
+            try {
+                String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+                log.info("url: {} file: {}", fileName, file);
+                Path uploadDir = Paths.get("uploads");
+                if (!Files.exists(uploadDir)) {
+                    Files.createDirectories(uploadDir);
+                }
+
+                Path path = uploadDir.resolve(fileName);
+                Files.write(path, file.getBytes());
+                url = "http://localhost:8080/uploads/" + fileName;
+                log.info("url: {} file: {}", url, file);
+
+            } catch (IOException e) {
+                throw new GlobalExceptionHandler.ImageUploadException("Failed to upload image");
+            }
+        }else{
+            url="";
+        }
+
+        quiz.setImageUrl(url);
 
         var savedQuiz = quizRepository.save(quiz);
 

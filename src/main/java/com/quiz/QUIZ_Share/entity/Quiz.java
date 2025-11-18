@@ -59,6 +59,9 @@ public class Quiz {
     @Column(name = "addedTime")
     private Date addedTime;
 
+    @Column(name = "imageUrl")
+    private String imageUrl;
+
     @PrePersist
     protected void onCreate() {
         this.addedTime = new Date();

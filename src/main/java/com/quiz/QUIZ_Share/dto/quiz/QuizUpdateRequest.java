@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Set;
 
@@ -20,20 +21,13 @@ import java.util.Set;
 public class QuizUpdateRequest {
 
     private String title;
-
     private Difficulty difficulty;
-
     private String subject;
     private String description;
-
     private Privacy privacy;
-
     private Integer rate;
-
     private Set<QuestionRequest> newQuestion;
-
     private Set<QuestionUpdateRequest> questions;
-
     private Integer authorId;
-
+    private MultipartFile file;
 }

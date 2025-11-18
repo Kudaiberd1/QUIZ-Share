@@ -9,8 +9,10 @@ import lombok.RequiredArgsConstructor;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.service.GenericResponseService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,11 +35,12 @@ public class QuizController {
         return ResponseEntity.ok(quizService.getById(id));
     }
 
-    @PostMapping()
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<QuizResponse> createQuiz(
-            @RequestBody @Valid QuizCreateRequest quizCreateRequest
+            @RequestPart("data") QuizCreateRequest quizCreateRequest,
+            @RequestPart(value = "file", required = false ) MultipartFile file
     ){
-        QuizResponse quizResponse = quizService.createQuiz(quizCreateRequest);
+        QuizResponse quizResponse = quizService.createQuiz(quizCreateRequest, file);
         return ResponseEntity.ok(quizResponse);
     }
 
