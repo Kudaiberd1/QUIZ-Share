@@ -37,6 +37,4 @@ public class QuizCreateRequest {
     @NotNull
     private Integer authorId;
 
-    private MultipartFile file;
-
 }

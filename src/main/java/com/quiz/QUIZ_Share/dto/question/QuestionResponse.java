@@ -17,5 +17,5 @@ public class QuestionResponse {
     private Long id;
     private String question;
     private List<Variant> variants;
-    private List<String> answer;
+    private List<Integer> answer;
 }

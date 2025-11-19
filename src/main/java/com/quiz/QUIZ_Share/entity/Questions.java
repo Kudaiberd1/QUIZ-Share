@@ -30,7 +30,7 @@ public class Questions {
 
     @NotNull
     @Column(name = "answer", nullable = false)
-    private List<String> answer;
+    private List<Integer> answer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude

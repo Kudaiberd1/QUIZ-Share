@@ -19,5 +19,5 @@ public class QuestionRequest {
 
     private List<VariantRequest> variants;
 
-    private List<String> answer;
+    private List<Integer> answer;
 }

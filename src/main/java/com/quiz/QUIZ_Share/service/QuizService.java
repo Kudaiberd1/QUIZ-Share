@@ -61,7 +61,7 @@ public class QuizService {
         log.info("Create quiz {}", quizCreateRequest);
 
         User user = userRepository.findById(quizCreateRequest.getAuthorId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException(String.format("User not found by this id: %d", quizCreateRequest.getAuthorId())));
 
 
         Quiz quiz = new Quiz();
@@ -75,6 +75,7 @@ public class QuizService {
         quiz.setLastName(user.getLastName());
 
         String url;
+        //log.info(file.toString());
         if(file != null){
             try {
                 String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
