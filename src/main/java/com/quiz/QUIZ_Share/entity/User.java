@@ -44,6 +44,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "results")
+    private List<Integer> results;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

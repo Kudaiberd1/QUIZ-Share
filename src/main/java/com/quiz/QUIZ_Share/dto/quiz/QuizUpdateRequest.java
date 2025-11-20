@@ -28,6 +28,6 @@ public class QuizUpdateRequest {
     private Integer rate;
     private Set<QuestionRequest> newQuestion;
     private Set<QuestionUpdateRequest> questions;
-    private Integer authorId;
+    private Long authorId;
     private MultipartFile file;
 }

@@ -32,7 +32,7 @@ public class Quiz {
     @Column(name = "subject", nullable = false)
     private String subject;
 
-    @Column(name = "description", nullable = true)
+    @Column(name = "description", nullable = true, length = 2000)
     private String description;
 
     @Enumerated(EnumType.STRING)
@@ -61,6 +61,9 @@ public class Quiz {
 
     @Column(name = "imageUrl")
     private String imageUrl;
+
+    @Column(name = "takeTimeLimit",  nullable = true)
+    private Integer takeTimeLimit;
 
     @PrePersist
     protected void onCreate() {

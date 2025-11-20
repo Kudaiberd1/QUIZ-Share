@@ -47,7 +47,7 @@ public class AuthenticationService {
 
                 Path path = uploadDir.resolve(fileName);
                 Files.write(path, file.getBytes());
-                url = "http://localhost:8080/uploads/" + fileName;
+                url = "http://10.84.174.91:8080/uploads/" + fileName;
                 log.info("url: {} file: {}", url, file);
 
             } catch (IOException e) {

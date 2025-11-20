@@ -1,0 +1,48 @@
+package com.quiz.QUIZ_Share.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.quiz.QUIZ_Share.dto.quiz.QuizResponse;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "takenQuiz")
+public class TakenQuiz {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "quiz_id")
+    private Quiz quiz;
+
+    @ElementCollection
+    @CollectionTable(name = "taken_quiz_answers", joinColumns = @JoinColumn(name = "taken_quiz_id"))
+    @Column(name = "answer")
+    private List<Integer> userAnswers = new ArrayList<>();
+
+    @Column(name = "correct")
+    private Integer correct;
+
+    @Column(name = "wrong")
+    private Integer wrong;
+
+    @Column(name = "skipped")
+    private Integer skipped;
+
+    @Column(name = "rating")
+    private double rating;
+
+    @Column(name = "authorId")
+    private Integer authorId;
+}

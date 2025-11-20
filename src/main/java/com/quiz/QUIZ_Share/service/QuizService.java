@@ -87,7 +87,7 @@ public class QuizService {
 
                 Path path = uploadDir.resolve(fileName);
                 Files.write(path, file.getBytes());
-                url = "http://localhost:8080/uploads/" + fileName;
+                url = "http://192.168.0.169:8080/uploads/" + fileName;
                 log.info("url: {} file: {}", url, file);
 
             } catch (IOException e) {
@@ -115,7 +115,9 @@ public class QuizService {
         Quiz quiz = quizRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Quiz not found"));
 
-        User user = userRepository.findById(quizUpdateRequest.getAuthorId())
+        Integer authorIdInt = quizUpdateRequest.getAuthorId().intValue();
+
+        User user = userRepository.findById(authorIdInt)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
 
