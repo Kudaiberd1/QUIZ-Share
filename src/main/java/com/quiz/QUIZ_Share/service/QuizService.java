@@ -73,6 +73,7 @@ public class QuizService {
         quiz.setUserId(user.getId());
         quiz.setFirstName(user.getFirstName());
         quiz.setLastName(user.getLastName());
+        quiz.setTakeTimeLimit(quizCreateRequest.getTakeTimeLimit());
 
         String url;
         //log.info(file.toString());
@@ -162,7 +163,7 @@ public class QuizService {
          Sort sort = switch(filter) {
             case LATEST -> Sort.by(Sort.Direction.DESC, "addedTime");
             case OLD -> Sort.by(Sort.Direction.ASC, "addedTime");
-            case RATE -> Sort.by(Sort.Direction.DESC, "rate");
+            case RATE -> Sort.by(Sort.Direction.ASC, "rate");
         };
         List<Quiz> filteredQuizzes = quizRepository.filterQuiz(title, subject, sort);
         return filteredQuizzes.stream().map(quizMapper::toDto).toList();

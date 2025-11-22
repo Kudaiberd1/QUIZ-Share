@@ -37,4 +37,6 @@ public class QuizCreateRequest {
     @NotNull
     private Integer authorId;
 
+    @NotNull
+    private Integer takeTimeLimit;
 }
