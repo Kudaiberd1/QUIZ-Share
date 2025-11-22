@@ -29,6 +29,8 @@ public class FeedbackService {
     }
 
     public FeedbackResponse createFeedback(FeedbackCreatRequest feedback) {
+
+        log.info(feedback.toString());
         Feedback newFeedback = new Feedback();
         newFeedback.setFeedback(feedback.getFeedback());
         newFeedback.setStar(feedback.getStar());

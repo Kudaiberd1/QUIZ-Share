@@ -12,12 +12,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FeedbackCreatRequest {
-    @NotNull
-    private String feedback;
-    @NotNull
-    private Integer star;
-    @NotNull
     private Long authorId;
-    @NotNull
     private Long quizId;
+    private String feedback;
+    private Integer star;
+
+    @Override
+    public String toString() {
+        return "FeedbackCreatRequest{" +
+                "authorId=" + authorId +
+                ", quizId=" + quizId +
+                ", feedback='" + feedback + '\'' +
+                ", star=" + star +
+                '}';
+    }
 }
