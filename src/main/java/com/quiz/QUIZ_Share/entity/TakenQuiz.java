@@ -26,10 +26,9 @@ public class TakenQuiz {
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
-    @ElementCollection
-    @CollectionTable(name = "taken_quiz_answers", joinColumns = @JoinColumn(name = "taken_quiz_id"))
-    @Column(name = "answer")
-    private List<Integer> userAnswers = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "taken_quiz_id")
+    private List<Answer> userAnswers = new ArrayList<>();
 
     @Column(name = "correct")
     private Integer correct;

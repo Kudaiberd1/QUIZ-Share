@@ -1,7 +1,6 @@
 package com.quiz.QUIZ_Share.dto.question;
 
 import com.quiz.QUIZ_Share.entity.Variant;
-import com.quiz.QUIZ_Share.enums.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

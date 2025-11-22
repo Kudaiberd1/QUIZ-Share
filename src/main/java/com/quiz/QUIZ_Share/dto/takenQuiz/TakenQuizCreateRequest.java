@@ -1,5 +1,6 @@
 package com.quiz.QUIZ_Share.dto.takenQuiz;
 
+import com.quiz.QUIZ_Share.dto.answer.AnswerDto;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -13,7 +14,7 @@ public class TakenQuizCreateRequest {
     @NotNull
     private Long quiz;
     @NotNull
-    private List<Integer> userAnswers;
+    private List<AnswerDto> userAnswers;
     @NotNull
     private Integer correct;
     @NotNull
@@ -22,6 +23,4 @@ public class TakenQuizCreateRequest {
     private Integer skipped;
     @NotNull
     private Integer authorId;
-    @NotNull
-    private Integer quizId;
 }

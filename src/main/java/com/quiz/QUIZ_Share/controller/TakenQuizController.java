@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/quiz/result")
 public class TakenQuizController {
 
-    private TakenQuizService takenQuizService;
+    private final TakenQuizService takenQuizService;
 
     @GetMapping("/{id}")
     public ResponseEntity<TakenQuizResponse> getTakenQuiz(@PathVariable Long id){
@@ -24,7 +24,7 @@ public class TakenQuizController {
     }
 
     @PostMapping()
-    public ResponseEntity<TakenQuizResponse> createTakenQuiz(TakenQuizCreateRequest result){
+    public ResponseEntity<TakenQuizResponse> createTakenQuiz(@RequestBody TakenQuizCreateRequest result){
         TakenQuizResponse createdResult = takenQuizService.createResult(result);
         return ResponseEntity.ok(createdResult);
     }

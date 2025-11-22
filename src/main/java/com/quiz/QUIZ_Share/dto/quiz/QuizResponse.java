@@ -27,4 +27,5 @@ public class QuizResponse {
     private String lastName;
     private List<Integer> rate;
     private String imageUrl;
+    private Integer takeTimeLimit;
 }
