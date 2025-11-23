@@ -65,6 +65,9 @@ public class Quiz {
     @Column(name = "takeTimeLimit",  nullable = true)
     private Integer takeTimeLimit;
 
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TakenQuiz> takenQuiz;
+
     @PrePersist
     protected void onCreate() {
         this.addedTime = new Date();

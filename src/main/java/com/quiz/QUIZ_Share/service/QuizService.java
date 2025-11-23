@@ -4,14 +4,18 @@ import com.quiz.QUIZ_Share.dto.question.QuestionUpdateRequest;
 import com.quiz.QUIZ_Share.dto.quiz.QuizCreateRequest;
 import com.quiz.QUIZ_Share.dto.quiz.QuizResponse;
 import com.quiz.QUIZ_Share.dto.quiz.QuizUpdateRequest;
+import com.quiz.QUIZ_Share.entity.Feedback;
 import com.quiz.QUIZ_Share.entity.Questions;
 import com.quiz.QUIZ_Share.entity.Quiz;
+import com.quiz.QUIZ_Share.entity.TakenQuiz;
 import com.quiz.QUIZ_Share.entity.User;
 import com.quiz.QUIZ_Share.enums.Filter;
 import com.quiz.QUIZ_Share.exceptions.GlobalExceptionHandler;
 import com.quiz.QUIZ_Share.mappers.QuizMapper;
+import com.quiz.QUIZ_Share.repositories.FeedbackRepository;
 import com.quiz.QUIZ_Share.repositories.QuestionRepository;
 import com.quiz.QUIZ_Share.repositories.QuizRepository;
+import com.quiz.QUIZ_Share.repositories.TakenQuizRepository;
 import com.quiz.QUIZ_Share.repositories.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +42,8 @@ public class QuizService {
     private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
     private final VariantService variantService;
+    private final FeedbackRepository feedbackRepository;
+    private final TakenQuizRepository takenQuizRepository;
 
     public List<QuizResponse> getAll() {
         log.info("Get all quizzes");
@@ -156,7 +162,31 @@ public class QuizService {
 
     public void deleteQuiz(Long id) {
         log.info("Delete quiz {}", id);
+
+        List<Feedback> feedbacks = feedbackRepository.findAllByQuizId(id);
+        if (!feedbacks.isEmpty()) {
+            log.info("Deleting {} feedback records for quiz {}", feedbacks.size(), id);
+            feedbackRepository.deleteAll(feedbacks);
+        }
+
+        List<TakenQuiz> takenQuizzes = takenQuizRepository.findAllByQuizId(id);
+        if (!takenQuizzes.isEmpty()) {
+            log.info("Deleting {} taken quiz records for quiz {}", takenQuizzes.size(), id);
+            takenQuizRepository.deleteAll(takenQuizzes);
+        }
+
+        List<Questions> questions = questionRepository.findAllByQuizId(id);
+        if (!questions.isEmpty()) {
+            log.info("Deleting {} question records for quiz {}", questions.size(), id);
+            questionRepository.deleteAll(questions);
+        }
+
+        if (!quizRepository.existsById(id)) {
+            throw new IllegalArgumentException("Quiz not found with id: " + id);
+        }
+
         quizRepository.deleteById(id);
+        log.info("Quiz {} deleted successfully", id);
     }
 
     public List<QuizResponse> filterQuiz(String title, String subject, Filter filter) {

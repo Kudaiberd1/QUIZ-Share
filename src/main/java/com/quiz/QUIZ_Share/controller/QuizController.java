@@ -72,5 +72,4 @@ public class QuizController {
     public ResponseEntity<List<String>> getAllSubject(){
         return ResponseEntity.ok(quizService.getAllSubject());
     }
-
 }
