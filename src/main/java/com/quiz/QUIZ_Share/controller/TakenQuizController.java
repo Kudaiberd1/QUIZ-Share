@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +23,12 @@ public class TakenQuizController {
     public ResponseEntity<TakenQuizResponse> getTakenQuiz(@PathVariable Long id){
         TakenQuizResponse takenQuizResponse = takenQuizService.getResult(id);
         return ResponseEntity.ok(takenQuizResponse);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<TakenQuizResponse>> getAllTakenQuiz(@PathVariable Integer id){
+        List<TakenQuizResponse> listTakenQuizzes = takenQuizService.getTakenQuizzesByUser(id);
+        return ResponseEntity.ok(listTakenQuizzes);
     }
 
     @PostMapping()

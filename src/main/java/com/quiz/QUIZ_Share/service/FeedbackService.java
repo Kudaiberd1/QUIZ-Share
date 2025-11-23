@@ -3,12 +3,15 @@ package com.quiz.QUIZ_Share.service;
 import com.quiz.QUIZ_Share.dto.feedback.FeedbackCreatRequest;
 import com.quiz.QUIZ_Share.dto.feedback.FeedbackResponse;
 import com.quiz.QUIZ_Share.dto.quiz.QuizUpdateRequest;
+import com.quiz.QUIZ_Share.dto.takenQuiz.TakenQuizResponse;
 import com.quiz.QUIZ_Share.entity.Feedback;
 import com.quiz.QUIZ_Share.mappers.FeedbackMapper;
 import com.quiz.QUIZ_Share.repositories.FeedbackRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -46,5 +49,11 @@ public class FeedbackService {
 
 
         return feedbackMapper.toDto(newFeedback);
+    }
+
+    public List<FeedbackResponse> getByQuizId(Long id) {
+        List<Feedback> feedbacks = feedbackRepository.findAllByQuizId(id);
+
+        return feedbacks.stream().map(feedbackMapper::toDto).toList();
     }
 }

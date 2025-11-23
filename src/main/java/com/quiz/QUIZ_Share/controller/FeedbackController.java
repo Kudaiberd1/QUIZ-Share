@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +22,13 @@ import org.springframework.web.bind.annotation.*;
 public class FeedbackController {
 
     private final FeedbackService feedbackService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<FeedbackResponse>> getAllFeedbackById(@PathVariable Long id){
+        List<FeedbackResponse> feedbacks = feedbackService.getByQuizId(id);
+
+        return ResponseEntity.ok(feedbacks);
+    }
 
     @GetMapping()
     public ResponseEntity<FeedbackResponse> feedback(@RequestParam Integer quizId, @RequestParam Integer authorId ) {

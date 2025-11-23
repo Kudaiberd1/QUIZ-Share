@@ -14,9 +14,9 @@ import com.quiz.QUIZ_Share.repositories.TakenQuizRepository;
 import com.quiz.QUIZ_Share.repositories.UserAnswerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -66,4 +66,9 @@ public class TakenQuizService {
         return takenQuizMapper.toDto(takenQuiz);
     }
 
+    public List<TakenQuizResponse> getTakenQuizzesByUser(Integer id) {
+        List<TakenQuiz> listQuizzes = takenQuizRepository.findAllByAuthorId(id, Sort.by(Sort.Direction.DESC, "id"));
+
+        return listQuizzes.stream().map(takenQuizMapper::toDto).toList();
+    }
 }
