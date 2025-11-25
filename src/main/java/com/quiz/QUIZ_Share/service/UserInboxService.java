@@ -25,7 +25,12 @@ public class UserInboxService {
     public List<FeedbackResponse> getFeedbacks(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Authorization not found"));
 
-        List<Feedback> feedbacks = feedbackRepository.findAllByAuthorId(Long.valueOf(user.getId()), Sort.by(Sort.Direction.DESC, "created_at"));
+        List<Feedback> feedbacks = feedbackRepository.findAllByAuthorId(
+                Long.valueOf(user.getId()),
+                Sort.by(Sort.Direction.DESC, "createdAt")
+        );
+
+        log.info("feedbacks size: {}", feedbacks);
 
         return feedbacks.stream().map(feedbackMapper::toDto).toList();
     }

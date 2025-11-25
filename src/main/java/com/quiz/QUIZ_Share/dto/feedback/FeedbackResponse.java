@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -17,4 +19,5 @@ public class FeedbackResponse {
     private Integer authorId;
     private Integer quizId;
     private boolean isReaded;
+    private LocalDateTime createdAt;
 }

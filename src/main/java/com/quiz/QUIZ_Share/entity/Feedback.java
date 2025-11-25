@@ -16,8 +16,7 @@ import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 @AllArgsConstructor
 @Entity
 @Table(
-        name = "feedback",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"author_id", "quiz_id"})
+        name = "feedback"
 )
 public class Feedback {
     @Id
