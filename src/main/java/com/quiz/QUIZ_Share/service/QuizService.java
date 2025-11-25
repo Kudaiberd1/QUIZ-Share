@@ -41,7 +41,6 @@ public class QuizService {
     private final QuestionService questionService;
     private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
-    private final VariantService variantService;
     private final FeedbackRepository feedbackRepository;
     private final TakenQuizRepository takenQuizRepository;
 
@@ -50,9 +49,9 @@ public class QuizService {
 
         List<Quiz> quizzes = quizRepository.findAllByOrderByAddedTimeDesc();
 
-        for (Quiz q : quizzes) {
-            log.info("Quiz {} has {} questions", q.getTitle(), q.getQuestions());
-        }
+//        for (Quiz q : quizzes) {
+//            log.info("Quiz {} has {} questions", q.getTitle(), q.getQuestions());
+//        }
         return quizzes.stream().map(quizMapper::toDto).toList();
     }
 

@@ -15,4 +15,6 @@ public class FeedbackResponse {
     private String feedback;
     private Integer star;
     private Integer authorId;
+    private Integer quizId;
+    private boolean isReaded;
 }

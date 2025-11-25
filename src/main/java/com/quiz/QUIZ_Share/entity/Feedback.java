@@ -5,6 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,4 +35,16 @@ public class Feedback {
 
     @Column(name = "quizId")
     private Long quizId;
+
+    @Column(name = "is_readed")
+    private Boolean isReaded;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.isReaded = false;
+        this.createdAt = LocalDateTime.now();
+    }
 }

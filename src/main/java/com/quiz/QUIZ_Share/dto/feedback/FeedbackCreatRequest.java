@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FeedbackCreatRequest {
-    private Long authorId;
     private Long quizId;
     private String feedback;
     private Integer star;
@@ -20,7 +19,6 @@ public class FeedbackCreatRequest {
     @Override
     public String toString() {
         return "FeedbackCreatRequest{" +
-                "authorId=" + authorId +
                 ", quizId=" + quizId +
                 ", feedback='" + feedback + '\'' +
                 ", star=" + star +
