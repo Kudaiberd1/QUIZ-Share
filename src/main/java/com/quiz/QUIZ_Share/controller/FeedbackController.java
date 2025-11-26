@@ -30,6 +30,16 @@ public class FeedbackController {
         return ResponseEntity.ok(feedbacks);
     }
 
+    @GetMapping()
+
+
+
+    public ResponseEntity<FeedbackResponse> feedback(@RequestParam Integer quizId, @RequestParam Integer authorId ) {
+        FeedbackResponse feedbackResponse = feedbackService.getFeedback(authorId, quizId);
+        return ResponseEntity.ok(feedbackResponse);
+    }
+
+
     @PostMapping()
     public ResponseEntity<FeedbackResponse> feedbackCreate(@RequestBody FeedbackCreatRequest feedback) {
         FeedbackResponse newFeedback = feedbackService.createFeedback(feedback);

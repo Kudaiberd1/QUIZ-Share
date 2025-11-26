@@ -43,8 +43,9 @@ public class FeedbackService {
         Feedback newFeedback = new Feedback();
         newFeedback.setFeedback(feedback.getFeedback());
         newFeedback.setStar(feedback.getStar());
-
+        newFeedback.setAuthorId(feedback.getAuthorId());
         newFeedback.setQuizId(feedback.getQuizId());
+        newFeedback.setToUserId(Long.valueOf(quiz.getUserId()));
 
         QuizUpdateRequest quizUpdateRequest = new QuizUpdateRequest();
         quizUpdateRequest.setAuthorId(Long.valueOf(quiz.getUserId()));

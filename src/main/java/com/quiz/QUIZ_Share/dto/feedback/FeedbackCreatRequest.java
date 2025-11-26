@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FeedbackCreatRequest {
     private Long quizId;
+    private Long toUserId;
+    private Long authorId;
     private String feedback;
     private Integer star;
 

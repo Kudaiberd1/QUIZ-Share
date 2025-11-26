@@ -35,6 +35,9 @@ public class Feedback {
     @Column(name = "quizId")
     private Long quizId;
 
+    @Column(name = "toUserId")
+    private Long toUserId;
+
     @Column(name = "is_readed")
     private Boolean isReaded;
 
