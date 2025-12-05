@@ -8,6 +8,7 @@ import com.quiz.QUIZ_Share.mappers.UserMapper;
 import com.quiz.QUIZ_Share.repositories.UserRepository;
 import com.quiz.QUIZ_Share.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +21,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -51,6 +53,7 @@ public class AuthenticationController {
     public ResponseEntity<UserReponse> getCurrentUser() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         var email = authentication.getName();
+
 
         return ResponseEntity.ok(userMapper.toDto(userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Authorization not found"))));
     }

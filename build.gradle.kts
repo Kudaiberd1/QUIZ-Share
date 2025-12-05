@@ -50,6 +50,10 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.security:spring-security-oauth2-authorization-server")
+
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("commons-logging:commons-logging:1.3.0")
 }
 
 tasks.withType<Test> {

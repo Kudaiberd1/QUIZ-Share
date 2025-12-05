@@ -1,6 +1,8 @@
 package com.quiz.QUIZ_Share.config;
 
 import com.quiz.QUIZ_Share.config.JwtAuthenticationFilter;
+import com.quiz.QUIZ_Share.config.OAuth.OAuthSuccessHandler;
+import com.quiz.QUIZ_Share.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +27,8 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
+    private final UserRepository userRepository;
+    private final JwtService jwtService;
 
 
     @Bean
@@ -38,9 +42,12 @@ public class SecurityConfig {
                                 "/api/v1/auth/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
-                                "/uploads/**"
+                                "/uploads/**",
+                                "/auth/**"
                         ).permitAll()
                         .anyRequest().authenticated()
+                ).oauth2Login(oauth -> oauth
+                        .successHandler(new OAuthSuccessHandler(userRepository, jwtService))
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
