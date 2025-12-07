@@ -28,12 +28,12 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public static String generateToken(String email) {
+    public String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
-                .setIssuedAt(new Date())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
