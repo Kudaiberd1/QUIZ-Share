@@ -25,12 +25,10 @@ import java.nio.file.Paths;
 @Slf4j
 public class AuthenticationService {
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final JwtService jwtService;
-
     private final AuthenticationManager authenticationManager;
+    private final S3Service s3Service;
 
 
     public AuthenticationResponse register(RegisterRequest request, MultipartFile file) {
@@ -38,18 +36,9 @@ public class AuthenticationService {
         //log.info(.toString());
         if(file != null){
             try {
-                String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-                log.info("url: {} file: {}", fileName, file);
-                Path uploadDir = Paths.get("uploads");
-                if (!Files.exists(uploadDir)) {
-                    Files.createDirectories(uploadDir);
-                }
-
-                Path path = uploadDir.resolve(fileName);
-                Files.write(path, file.getBytes());
-                url = "http://10.84.174.91:8080/uploads/" + fileName;
-                log.info("url: {} file: {}", url, file);
-
+                String key = s3Service.uploadFile(file);
+                url = s3Service.getFileUrl(key);
+                log.info("Uploaded file url {}", url);
             } catch (IOException e) {
                 throw new GlobalExceptionHandler.ImageUploadException("Failed to upload image");
             }
@@ -64,7 +53,6 @@ public class AuthenticationService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .imageUrl(url)
-                .role(request.getRole())
                 .build();
 
         if(request.getPassword().equals(request.getConfirmPassword())) {

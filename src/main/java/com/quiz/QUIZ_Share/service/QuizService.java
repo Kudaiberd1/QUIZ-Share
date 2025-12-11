@@ -21,6 +21,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +32,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +46,7 @@ public class QuizService {
     private final QuestionRepository questionRepository;
     private final FeedbackRepository feedbackRepository;
     private final TakenQuizRepository takenQuizRepository;
+    private final S3Service s3Service;
 
     public List<QuizResponse> getAll() {
         log.info("Get all quizzes");
@@ -81,23 +85,13 @@ public class QuizService {
         quiz.setTakeTimeLimit(quizCreateRequest.getTakeTimeLimit());
 
         String url;
-        //log.info(file.toString());
         if(file != null){
             try {
-                String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-                log.info("url: {} file: {}", fileName, file);
-                Path uploadDir = Paths.get("uploads");
-                if (!Files.exists(uploadDir)) {
-                    Files.createDirectories(uploadDir);
-                }
-
-                Path path = uploadDir.resolve(fileName);
-                Files.write(path, file.getBytes());
-                url = "http://192.168.0.169:8080/uploads/" + fileName;
-                log.info("url: {} file: {}", url, file);
-
-            } catch (IOException e) {
-                throw new GlobalExceptionHandler.ImageUploadException("Failed to upload image");
+                String key = s3Service.uploadFile(file);
+                url = s3Service.getFileUrl(key);
+                log.info("Uploaded file url {}", url);
+            } catch (Exception e) {
+                throw new GlobalExceptionHandler.ImageUploadException(e.getMessage());
             }
         }else{
             url="";
@@ -105,12 +99,13 @@ public class QuizService {
 
         quiz.setImageUrl(url);
 
+        if(quizCreateRequest.getQuestion() == null || quizCreateRequest.getQuestion().isEmpty()){
+            throw new IllegalArgumentException("Quiz must contain at least one question");
+        }
+
         var savedQuiz = quizRepository.save(quiz);
-
         var questions = questionService.buildQuestion(quiz, quizCreateRequest.getQuestion());
-
         savedQuiz.setQuestions(questions);
-
         return quizMapper.toDto(savedQuiz);
     }
 

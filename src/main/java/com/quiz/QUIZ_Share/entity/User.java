@@ -41,9 +41,6 @@ public class User implements UserDetails {
     @Column(nullable = true)
     private String imageUrl;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
     @Column(name = "results")
     private List<Integer> results;
 
