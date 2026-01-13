@@ -15,6 +15,7 @@ import java.util.List;
 public class UserReponse {
 
     private Integer id;
+    private String username;
     private String firstName;
     private String lastName;
     private String imageUrl;
