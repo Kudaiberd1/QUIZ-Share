@@ -20,20 +20,17 @@ import java.util.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "login")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
+    private String username;
+
+    @Column(unique = true, nullable = true)
     private String email;
-
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
-    private String confirmPassword;
 
     private String firstName;
     private String lastName;
@@ -43,14 +40,4 @@ public class User implements UserDetails {
 
     @Column(name = "results")
     private List<Integer> results;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
 }
