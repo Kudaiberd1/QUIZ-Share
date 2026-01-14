@@ -1,6 +1,6 @@
 package com.quiz.QUIZ_Share.mappers;
 
-import com.quiz.QUIZ_Share.dto.auth.UserReponse;
+import com.quiz.QUIZ_Share.dto.auth.UserResponse;
 import com.quiz.QUIZ_Share.entity.User;
 import org.mapstruct.Mapper;
 
@@ -10,5 +10,5 @@ import org.mapstruct.Mapper;
 )
 public interface UserMapper {
 
-    UserReponse toDto(User user);
+    UserResponse toDto(User user);
 }
