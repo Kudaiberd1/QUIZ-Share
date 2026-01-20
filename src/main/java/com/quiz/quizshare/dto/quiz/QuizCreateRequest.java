@@ -1,0 +1,41 @@
+package com.quiz.quizshare.dto.quiz;
+
+import com.quiz.quizshare.dto.question.QuestionRequest;
+import com.quiz.quizshare.enums.Difficulty;
+import com.quiz.quizshare.enums.Privacy;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.antlr.v4.runtime.misc.NotNull;
+
+import java.util.Set;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class QuizCreateRequest {
+
+    @NotNull
+    private String title;
+
+    @NotNull
+    private Difficulty difficulty;
+
+    @NotNull
+    private String subject;
+    private String description;
+
+    @NotNull
+    private Privacy privacy;
+
+    @NotNull
+    private Set<QuestionRequest> question;
+
+    @NotNull
+    private Integer authorId;
+
+    @NotNull
+    private Integer takeTimeLimit;
+}
