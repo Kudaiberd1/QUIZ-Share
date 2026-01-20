@@ -22,8 +22,8 @@ public class UserInboxService {
     private final FeedbackRepository feedbackRepository;
     private final FeedbackMapper feedbackMapper;
 
-    public List<FeedbackResponse> getFeedbacks(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Authorization not found"));
+    public List<FeedbackResponse> getFeedbacks(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("Authorization not found"));
 
         List<Feedback> feedbacks = feedbackRepository.findAllByToUserId(
                 Long.valueOf(user.getId()),

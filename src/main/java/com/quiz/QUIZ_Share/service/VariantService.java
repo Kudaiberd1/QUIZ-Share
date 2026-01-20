@@ -21,14 +21,19 @@ public class VariantService {
 
     public List<Variant> createVariant(List<VariantRequest> variant, Questions question) {
         log.info("Create variant {}", variant);
+
         List<Variant> newVariants = new ArrayList<>();
+
         for (VariantRequest varinant : variant) {
             Variant newVariant = new Variant();
+
             newVariant.setOption(varinant.getOption());
             newVariant.setQuestion(question);
+
             var savedVariant = variantRepository.save(newVariant);
             newVariants.add(savedVariant);
         }
+
         return newVariants;
     }
 }

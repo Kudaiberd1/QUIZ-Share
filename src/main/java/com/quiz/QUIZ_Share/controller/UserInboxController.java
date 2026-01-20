@@ -9,7 +9,9 @@ import com.quiz.QUIZ_Share.service.UserInboxService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,11 +25,10 @@ public class UserInboxController {
     private final UserInboxService userInboxService;
 
     @GetMapping()
-    public ResponseEntity<List<FeedbackResponse>> getAllUserInbox(){
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var email = authentication.getName();
+    public ResponseEntity<List<FeedbackResponse>> getAllUserInbox(@AuthenticationPrincipal Jwt jwt){
+        String username = jwt.getClaim("preferred_username");
 
-        List<FeedbackResponse> feedbacks = userInboxService.getFeedbacks(email);
+        List<FeedbackResponse> feedbacks = userInboxService.getFeedbacks(username);
 
         return ResponseEntity.ok(feedbacks);
     }

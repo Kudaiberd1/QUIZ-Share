@@ -37,12 +37,10 @@ public class S3Service {
                 .contentLength(contentLength)
                 .build();
 
-        //log.info("file {}", putObjectRequest);
-
         s3Client.putObject(putObjectRequest,
                 RequestBody.fromInputStream(file.getInputStream(), contentLength));
 
-        return key;
+        return getFileUrl(key);
     }
 
     public String getFileUrl(String key) {

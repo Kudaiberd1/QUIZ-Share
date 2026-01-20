@@ -23,7 +23,6 @@ public class QuestionService {
     private final VariantService variantService;
 
     public List<Questions> buildQuestion(Quiz quiz, Set<QuestionRequest> questions){
-        //log.info("Building questions for quiz {}", quiz.toString());
         List<Questions> newQuestions = new ArrayList<>();
 
         for(QuestionRequest question: questions){
@@ -45,8 +44,10 @@ public class QuestionService {
     public Questions updateQuestion(QuestionUpdateRequest questionRequest){
         Questions existingQuestion = questionRepository.findById(questionRequest.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Question id not found"));
+
         List<Variant> allVariants = questionRequest.getVariants();
-        if(questionRequest.getNewVariants() != null && questionRequest.getNewVariants().size() > 0) {
+
+        if(questionRequest.getNewVariants() != null && !questionRequest.getNewVariants().isEmpty()) {
             var newVariants = variantService.createVariant(questionRequest.getNewVariants(), existingQuestion);
             allVariants.addAll(newVariants);
         }

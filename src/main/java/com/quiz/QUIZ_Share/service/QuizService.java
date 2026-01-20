@@ -50,24 +50,21 @@ public class QuizService {
 
     public List<QuizResponse> getAll() {
         log.info("Get all quizzes");
-
         List<Quiz> quizzes = quizRepository.findAllByOrderByAddedTimeDesc();
 
-//        for (Quiz q : quizzes) {
-//            log.info("Quiz {} has {} questions", q.getTitle(), q.getQuestions());
-//        }
         return quizzes.stream().map(quizMapper::toDto).toList();
     }
 
     public QuizResponse getById(Long id) {
         log.info("Get quiz by id {}", id);
         Quiz quiz = quizRepository.findById(id).orElseThrow();
+
         return quizMapper.toDto(quiz);
     }
 
 
     public QuizResponse createQuiz(@Valid QuizCreateRequest quizCreateRequest, MultipartFile file) {
-        log.info("Create quiz {}", quizCreateRequest);
+        log.info("Create quiz");
 
         User user = userRepository.findById(quizCreateRequest.getAuthorId())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("User not found by this id: %d", quizCreateRequest.getAuthorId())));
@@ -84,17 +81,13 @@ public class QuizService {
         quiz.setLastName(user.getLastName());
         quiz.setTakeTimeLimit(quizCreateRequest.getTakeTimeLimit());
 
-        String url;
+        String url="";
         if(file != null){
             try {
-                String key = s3Service.uploadFile(file);
-                url = s3Service.getFileUrl(key);
-                log.info("Uploaded file url {}", url);
+                url = s3Service.uploadFile(file);
             } catch (Exception e) {
                 throw new GlobalExceptionHandler.ImageUploadException(e.getMessage());
             }
-        }else{
-            url="";
         }
 
         quiz.setImageUrl(url);
@@ -110,17 +103,11 @@ public class QuizService {
     }
 
     public QuizResponse updateQuiz(Long id, @Valid QuizUpdateRequest quizUpdateRequest) {
-        log.info("Update quiz {}", quizUpdateRequest);
+        log.info("Update quiz");
 
 
         Quiz quiz = quizRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Quiz not found"));
-
-        Integer authorIdInt = quizUpdateRequest.getAuthorId().intValue();
-
-        User user = userRepository.findById(authorIdInt)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
 
         if(quizUpdateRequest.getTitle() != null) quiz.setTitle(quizUpdateRequest.getTitle());
         if(quizUpdateRequest.getDescription() != null) quiz.setDescription(quizUpdateRequest.getDescription());
@@ -142,9 +129,6 @@ public class QuizService {
             quiz.setQuestions(updatedQuestions);
         }
 
-
-        log.info("Quiz updated {}", quizUpdateRequest);
-
         if (quizUpdateRequest.getNewQuestion() != null) {
             var newQuestions = questionService.buildQuestion(quiz, quizUpdateRequest.getNewQuestion());
             quiz.getQuestions().addAll(newQuestions);
@@ -159,19 +143,16 @@ public class QuizService {
 
         List<Feedback> feedbacks = feedbackRepository.findAllByQuizId(id);
         if (!feedbacks.isEmpty()) {
-            log.info("Deleting {} feedback records for quiz {}", feedbacks.size(), id);
             feedbackRepository.deleteAll(feedbacks);
         }
 
         List<TakenQuiz> takenQuizzes = takenQuizRepository.findAllByQuizId(id);
         if (!takenQuizzes.isEmpty()) {
-            log.info("Deleting {} taken quiz records for quiz {}", takenQuizzes.size(), id);
             takenQuizRepository.deleteAll(takenQuizzes);
         }
 
         List<Questions> questions = questionRepository.findAllByQuizId(id);
         if (!questions.isEmpty()) {
-            log.info("Deleting {} question records for quiz {}", questions.size(), id);
             questionRepository.deleteAll(questions);
         }
 

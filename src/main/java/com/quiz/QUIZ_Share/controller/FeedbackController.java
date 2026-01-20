@@ -31,9 +31,6 @@ public class FeedbackController {
     }
 
     @GetMapping()
-
-
-
     public ResponseEntity<FeedbackResponse> feedback(@RequestParam Integer quizId, @RequestParam Integer authorId ) {
         FeedbackResponse feedbackResponse = feedbackService.getFeedback(authorId, quizId);
         return ResponseEntity.ok(feedbackResponse);

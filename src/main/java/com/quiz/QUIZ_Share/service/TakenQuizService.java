@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TakenQuizService {
+public class    TakenQuizService {
 
     private final TakenQuizRepository takenQuizRepository;
     private final TakenQuizMapper takenQuizMapper;

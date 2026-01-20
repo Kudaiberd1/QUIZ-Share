@@ -39,7 +39,6 @@ public class FeedbackService {
         Quiz quiz = quizRepository.findById(feedback.getQuizId())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Quiz not found by this id: %d", feedback.getQuizId())));
 
-        log.info(feedback.toString());
         Feedback newFeedback = new Feedback();
         newFeedback.setFeedback(feedback.getFeedback());
         newFeedback.setStar(feedback.getStar());
