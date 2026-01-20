@@ -11,9 +11,5 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
 
     List<Feedback> findAllByQuizId(Long quizId);
 
-    <T> Feedback findByAuthorId(Long authorId);
-
-    List<Feedback> findAllByAuthorId(Long authorId, Sort createdAt);
-
     List<Feedback> findAllByToUserId(Long toUserId, Sort sort);
 }

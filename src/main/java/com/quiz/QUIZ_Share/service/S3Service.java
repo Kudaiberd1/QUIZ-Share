@@ -1,5 +1,6 @@
 package com.quiz.QUIZ_Share.service;
 
+import com.quiz.QUIZ_Share.exceptions.GlobalExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,18 @@ public class S3Service {
 
     public S3Service(S3Client s3Client) {
         this.s3Client = s3Client;
+    }
+
+    String uploadAndGetAddress(MultipartFile file) {
+        if (file == null) {
+            return "";
+        }
+
+        try {
+            return uploadFile(file);
+        } catch (Exception e) {
+            throw new GlobalExceptionHandler.ImageUploadException(e.getMessage());
+        }
     }
 
     public String uploadFile(MultipartFile file) throws IOException {

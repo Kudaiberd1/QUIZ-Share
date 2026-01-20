@@ -30,7 +30,7 @@ public class AuthenticationController {
     private final UserMapper userMapper;
 
     @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> register(
+    public ResponseEntity<Map<String, String>> register(
             @RequestPart("data") RegisterRequest request,
             @RequestPart(value = "file", required = false) MultipartFile file
     ) {

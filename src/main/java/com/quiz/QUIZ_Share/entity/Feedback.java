@@ -5,11 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.util.Date;
 
-import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
 @Data
 @NoArgsConstructor

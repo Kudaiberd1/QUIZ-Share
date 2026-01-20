@@ -36,10 +36,10 @@ public class AuthenticationService {
     @Value("${spring.application.jwt.keycloak.client-secret}")
     private String clientSecret;
 
-    public AuthResponse getAuthResponse(String username, String password) throws BadRequestException {
+    public AuthResponse getAuthResponse(String username, String password) {
         log.info("username={}", username);
         if(username.isEmpty() || password.isEmpty()){
-            throw new BadRequestException("Username or password is null or blank");
+            throw new IllegalArgumentException("Username or password is null or blank");
         }
         String tokenUrl = buildTokenEndpoint("token");
 
@@ -60,7 +60,7 @@ public class AuthenticationService {
 
                 return mapTokenResponse(response.getBody());
             } else {
-                throw new RuntimeException("Failed to get AuthResponse");
+                throw new IllegalArgumentException("Failed to get AuthResponse");
             }
         }catch (HttpClientErrorException.Unauthorized e) {
             log.warn("Authentication failed for user '{}': Invalid credentials", username);
@@ -112,18 +112,7 @@ public class AuthenticationService {
                 new_user.setFirstName(request.getFirstName());
                 new_user.setLastName(request.getLastName());
 
-                String url;
-                if(file != null){
-                    try {
-                        String key = s3Service.uploadFile(file);
-                        url = s3Service.getFileUrl(key);
-                        log.info("Uploaded file url {}", url);
-                    } catch (Exception e) {
-                        throw new GlobalExceptionHandler.ImageUploadException(e.getMessage());
-                    }
-                }else{
-                    url="";
-                }
+                String url=s3Service.uploadAndGetAddress(file);
                 new_user.setImageUrl(url);
 
                 userRepository.save(new_user);
@@ -133,7 +122,7 @@ public class AuthenticationService {
 
                 setPassword(userId, request.getPassword(), adminToken);
             }else{
-                throw new RuntimeException("Unexpected error during registration");
+                throw new BadRequestException("Unexpected error during registration");
             }
         }catch (HttpClientErrorException.Unauthorized e) {
             log.warn("Invalid credentials");

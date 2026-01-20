@@ -81,15 +81,7 @@ public class QuizService {
         quiz.setLastName(user.getLastName());
         quiz.setTakeTimeLimit(quizCreateRequest.getTakeTimeLimit());
 
-        String url="";
-        if(file != null){
-            try {
-                url = s3Service.uploadFile(file);
-            } catch (Exception e) {
-                throw new GlobalExceptionHandler.ImageUploadException(e.getMessage());
-            }
-        }
-
+        String url=s3Service.uploadAndGetAddress(file);
         quiz.setImageUrl(url);
 
         if(quizCreateRequest.getQuestion() == null || quizCreateRequest.getQuestion().isEmpty()){
@@ -175,7 +167,6 @@ public class QuizService {
     }
 
     public List<String> getAllSubject() {
-        List<String> subjects = quizRepository.findAllSubject();
-        return subjects;
+        return quizRepository.findAllSubject();
     }
 }

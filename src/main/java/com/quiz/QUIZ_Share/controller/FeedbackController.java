@@ -2,12 +2,7 @@ package com.quiz.QUIZ_Share.controller;
 
 import com.quiz.QUIZ_Share.dto.feedback.FeedbackCreatRequest;
 import com.quiz.QUIZ_Share.dto.feedback.FeedbackResponse;
-import com.quiz.QUIZ_Share.dto.takenQuiz.TakenQuizResponse;
-import com.quiz.QUIZ_Share.entity.Feedback;
-import com.quiz.QUIZ_Share.mappers.FeedbackMapper;
-import com.quiz.QUIZ_Share.repositories.FeedbackRepository;
 import com.quiz.QUIZ_Share.service.FeedbackService;
-import com.quiz.QUIZ_Share.service.TakenQuizService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
